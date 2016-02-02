@@ -2,6 +2,8 @@ voting-app:
   build: ./voting-app/.
   ports:
     - "5000:80"
+  links:
+    - redis
 
 redis:
   image: hypriot/rpi-redis
@@ -9,6 +11,9 @@ redis:
 
 worker:
   build: ./worker
+  links:
+    - redis
+    - db
 
 db:
   image: randyp/rpi-postgres:9.4.0
@@ -19,3 +24,5 @@ result-app:
   build: ./result-app/.
   ports:
     - "5001:80"
+  links:
+    - db
