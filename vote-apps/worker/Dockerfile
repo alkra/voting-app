@@ -1,9 +1,12 @@
 FROM hypriot/rpi-java:1.7.0-jdk
 
+ADD apt-proxy.conf /etc/apt/apt.conf.d/proxy.conf
+
 RUN apt-get update && apt-get install -y maven && apt-get clean
 
 WORKDIR /code
 
+ADD maven-proxy-global.xml /etc/maven/settings.xml
 ADD pom.xml /code/pom.xml
 RUN ["mvn", "dependency:resolve"]
 RUN ["mvn", "verify"]
